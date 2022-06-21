@@ -6,6 +6,8 @@ from scipy.io import mmwrite, mmread
 parser = argparse.ArgumentParser()
 parser.add_argument('arg1', help='help for arg1', default='no_arg1')
 parser.add_argument('-b', help='help for arg2', default='no_B_matrix')
+parser.add_argument('-e', help='help for arg2', default='result_ev.txt')
+parser.add_argument('-ipr', help='help for arg2', default='result_ipr.txt')
 
 args = parser.parse_args()
 #print('matrix A = ',args.arg1)
@@ -26,8 +28,16 @@ elif args.arg1 != 'no_arg1' :
 else:
     print('ERROR:No input for matrix')
 
+with open(args.e, 'w') as f:
+    for i in range(len(w)):
+        print (i+1, w[i], file=f)
 
-for i in range(len(w)):
-    print (i+1, w[i])
-    
+with open(args.ipr, 'w') as f:
+    for i in range(len(w)):
+        y=w
+        for j in range(len(w)):
+#           print('i,j=',i,j)
+            w[j] = v[j,i]**4
+        print (i+1, sum(w), file=f)
+
 
